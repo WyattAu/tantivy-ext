@@ -1,13 +1,14 @@
 [package]
-name = "tantivy-ext"
+name = "tantivy-helper"
 version = "0.1.0"
 edition = "2024"
 rust-version = "1.85"
 description = "Full-text search for Rust — Tantivy wrapper with BM25 ranking, autocomplete, highlighting, and typed queries"
 license = "MIT OR Apache-2.0"
-repository = "https://github.com/WyattAu/tantivy-ext"
+repository = "https://github.com/WyattAu/tantivy-helper"
 keywords = ["tantivy", "search", "fulltext", "bm25", "highlight"]
 categories = ["text-processing", "search"]
+exclude = ["/target"]
 
 [dependencies]
 tantivy = "0.22"

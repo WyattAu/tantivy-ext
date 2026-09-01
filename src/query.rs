@@ -12,6 +12,7 @@ pub struct QueryBuilder<'a> {
 }
 
 impl<'a> QueryBuilder<'a> {
+    /// Create a new query builder.
     pub fn new(index: &'a Index, schema: &'a Schema) -> Self {
         Self {
             _index: index,
@@ -77,7 +78,7 @@ impl<'a> QueryBuilder<'a> {
         }
 
         if self.terms.len() == 1 {
-            Ok(self.terms.into_iter().next().unwrap())
+            Ok(self.terms.into_iter().next().expect("checked len == 1"))
         } else {
             let sub: Vec<(tantivy::query::Occur, Box<dyn tantivy::query::Query>)> = self
                 .terms

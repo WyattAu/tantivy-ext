@@ -1,4 +1,4 @@
-# tantivy-ext
+# tantivy-helper
 
 Full-text search for Rust — Tantivy wrapper with BM25 ranking, autocomplete, highlighting, and typed queries.
 
@@ -49,7 +49,7 @@ for hit in &results {
 
 ## Comparison with raw tantivy
 
-| Feature | tantivy-ext | raw tantivy |
+| Feature | tantivy-helper | raw tantivy |
 |---|---|---|
 | Schema definition | Fluent builder | Manual SchemaBuilder |
 | Query building | Typed builder | Manual query construction |

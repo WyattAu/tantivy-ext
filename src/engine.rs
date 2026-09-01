@@ -11,8 +11,11 @@ use crate::schema::IndexConfig;
 /// Result of a single search hit.
 #[derive(Debug, Clone)]
 pub struct SearchResult {
+    /// Document address in the index.
     pub doc_address: tantivy::DocAddress,
+    /// Relevance score.
     pub score: f32,
+    /// Optional highlighted snippet.
     pub snippet: Option<String>,
 }
 
@@ -219,10 +222,12 @@ impl SearchEngine {
         Ok(count)
     }
 
+    /// Get a reference to the index schema.
     pub fn schema(&self) -> &Schema {
         &self.schema
     }
 
+    /// Get a reference to the underlying Tantivy index.
     pub fn index(&self) -> &Index {
         &self.index
     }

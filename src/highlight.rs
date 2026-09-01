@@ -1,11 +1,15 @@
 /// Highlighter for search result snippets.
 pub struct Highlighter {
+    /// Tag inserted before matched terms.
     pub pre_tag: String,
+    /// Tag inserted after matched terms.
     pub post_tag: String,
+    /// Maximum tokens in a snippet.
     pub max_tokens: usize,
 }
 
 impl Highlighter {
+    /// Create a new highlighter with default tags (`<mark>`/`</mark>`).
     pub fn new() -> Self {
         Self {
             pre_tag: "<mark>".into(),
@@ -14,6 +18,7 @@ impl Highlighter {
         }
     }
 
+    /// Create a highlighter with custom tags.
     pub fn with_tags(pre: impl Into<String>, post: impl Into<String>) -> Self {
         Self {
             pre_tag: pre.into(),
@@ -22,6 +27,7 @@ impl Highlighter {
         }
     }
 
+    /// Highlight matching terms in the text.
     pub fn highlight(&self, text: &str, query_terms: &[String]) -> String {
         let mut result = text.to_string();
 
