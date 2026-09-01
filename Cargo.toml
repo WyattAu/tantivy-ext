@@ -7,7 +7,7 @@ description = "Full-text search for Rust — Tantivy wrapper with BM25 ranking, 
 license = "MIT OR Apache-2.0"
 repository = "https://github.com/WyattAu/tantivy-helper"
 keywords = ["tantivy", "search", "fulltext", "bm25", "highlight"]
-categories = ["text-processing", "search"]
+categories = ["text-processing"]
 exclude = ["/target"]
 
 [dependencies]
