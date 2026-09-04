@@ -3,10 +3,10 @@
 //! Tests FieldDefinition creation for each type, BM25Config defaults,
 //! Highlighter highlight and snippet, and SearchError display.
 
+use tantivy_helper::SearchError;
 use tantivy_helper::highlight::Highlighter;
 use tantivy_helper::ranking::BM25Config;
 use tantivy_helper::schema::{FieldDefinition, FieldType, IndexConfig, IndexSettings};
-use tantivy_helper::SearchError;
 
 // ---------------------------------------------------------------------------
 // FieldDefinition creation for each type

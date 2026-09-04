@@ -3,7 +3,7 @@ use std::path::Path;
 use tantivy::collector::TopDocs;
 use tantivy::query::Query as TantivyQuery;
 use tantivy::schema::*;
-use tantivy::{TantivyDocument, Index, IndexWriter, ReloadPolicy};
+use tantivy::{Index, IndexWriter, ReloadPolicy, TantivyDocument};
 
 use crate::error::SearchError;
 use crate::schema::IndexConfig;
@@ -165,10 +165,7 @@ impl SearchEngine {
     }
 
     /// Index a single document.
-    pub fn index_document(
-        &mut self,
-        doc: TantivyDocument,
-    ) -> Result<(), SearchError> {
+    pub fn index_document(&mut self, doc: TantivyDocument) -> Result<(), SearchError> {
         self.writer
             .add_document(doc)
             .map_err(|e| SearchError::Index(e.to_string()))?;
@@ -189,14 +186,16 @@ impl SearchEngine {
         query: &dyn TantivyQuery,
         limit: usize,
     ) -> Result<Vec<SearchResult>, SearchError> {
-        let searcher = self.index.reader_builder()
+        let searcher = self
+            .index
+            .reader_builder()
             .reload_policy(ReloadPolicy::OnCommitWithDelay)
             .try_into()
             .map_err(|e| SearchError::Index(e.to_string()))?
             .searcher();
 
         let top_docs = searcher
-            .search(query, &TopDocs::with_limit(limit))
+            .search(query, &TopDocs::with_limit(limit).order_by_score())
             .map_err(|e| SearchError::Query(e.to_string()))?;
 
         let results = top_docs
@@ -213,12 +212,13 @@ impl SearchEngine {
 
     /// Delete a document by term match.
     pub fn delete(&mut self, field: &str, value: &str) -> Result<u64, SearchError> {
-        let field_entry = self.schema.get_field(field)
+        let field_entry = self
+            .schema
+            .get_field(field)
             .map_err(|_| SearchError::Schema(format!("field '{field}' not found")))?;
 
         let term = Term::from_field_text(field_entry, value);
-        let count = self.writer
-            .delete_term(term);
+        let count = self.writer.delete_term(term);
         Ok(count)
     }
 

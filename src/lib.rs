@@ -76,7 +76,10 @@ mod tests {
 
     #[test]
     fn field_definition_chained_modifiers() {
-        let f = FieldDefinition::text("body").stored(false).indexed(false).fast(true);
+        let f = FieldDefinition::text("body")
+            .stored(false)
+            .indexed(false)
+            .fast(true);
         assert!(!f.stored);
         assert!(!f.indexed);
         assert!(f.fast);

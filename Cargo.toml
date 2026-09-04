@@ -1,8 +1,8 @@
 [package]
 name = "tantivy-helper"
-version = "0.1.0"
+version = "0.2.0"
 edition = "2024"
-rust-version = "1.85"
+rust-version = "1.86"
 description = "Full-text search for Rust — Tantivy wrapper with BM25 ranking, autocomplete, highlighting, and typed queries"
 license = "MIT OR Apache-2.0"
 repository = "https://github.com/WyattAu/tantivy-helper"
@@ -11,7 +11,7 @@ categories = ["text-processing"]
 exclude = ["/target"]
 
 [dependencies]
-tantivy = "0.22"
+tantivy = "0.26"
 thiserror = "2"
 serde = { version = "1", features = ["derive"] }
 tokio = "1"

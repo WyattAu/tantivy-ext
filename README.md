@@ -2,6 +2,8 @@
 
 Full-text search for Rust — Tantivy wrapper with BM25 ranking, autocomplete, highlighting, and typed queries.
 
+Built on **tantivy 0.26** (v0.2.0). MSRV is 1.86.
+
 ## Features
 
 - **BM25 ranking** — Configurable k1/b parameters and field boosts
@@ -56,6 +58,17 @@ for hit in &results {
 | BM25 config | Structured config | Direct parameter tuning |
 | Highlighting | Built-in with tags | Manual implementation |
 | Error handling | Unified `SearchError` | Multiple error types |
+
+## Version history
+
+- **0.2.0** — Bump to tantivy 0.26. Public API unchanged except:
+  - `SearchEngine::search` now ranks via `TopDocs::with_limit(limit).order_by_score()` (tantivy 0.26 made `TopDocs` a collector blueprint, not a `Collector` itself). Behavior is identical: score-ranked top-K.
+  - MSRV raised to 1.86 (tantivy 0.26 requirement).
+- **0.1.0** — Initial release on tantivy 0.22.
+
+## Ecosystem alignment
+
+This crate and [kestrel](https://github.com/WyattAu/kestrel) are aligned on tantivy 0.26. Kestrel currently uses raw tantivy directly; migrating its `IndexService` onto `SearchEngine`/`QueryBuilder` is future work.
 
 ## License
 
