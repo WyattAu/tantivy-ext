@@ -12,7 +12,7 @@ categories = ["text-processing"]
 exclude = ["/target"]
 
 [dependencies]
-tantivy = "0.26"
+tantivy = "0.26.2"
 thiserror = "2"
 serde = { version = "1", features = ["derive"] }
 tokio = "1"
