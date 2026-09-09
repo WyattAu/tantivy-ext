@@ -78,6 +78,9 @@ impl<'a> QueryBuilder<'a> {
         }
 
         if self.terms.len() == 1 {
+            // Infallible: `len() == 1` was just checked, so the iterator
+            // always yields exactly one element.
+            #[allow(clippy::expect_used)]
             Ok(self.terms.into_iter().next().expect("checked len == 1"))
         } else {
             let sub: Vec<(tantivy::query::Occur, Box<dyn tantivy::query::Query>)> = self
