@@ -24,3 +24,7 @@ bm25 = []
 [dev-dependencies]
 proptest = "1"
 tokio = { version = "1", features = ["macros", "rt-multi-thread"] }
+
+[lints.clippy]
+unwrap_used = "warn"
+expect_used = "warn"
