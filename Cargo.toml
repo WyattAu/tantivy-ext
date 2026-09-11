@@ -6,7 +6,7 @@ edition = "2024"
 rust-version = "1.86"
 description = "Full-text search for Rust — Tantivy wrapper with BM25 ranking, autocomplete, highlighting, and typed queries"
 license = "MIT OR Apache-2.0"
-repository = "https://github.com/WyattAu/tantivy-helper"
+repository = "https://github.com/WyattAu/tantivy-ext"
 keywords = ["tantivy", "search", "fulltext", "bm25", "highlight"]
 categories = ["text-processing"]
 exclude = ["/target"]
@@ -15,7 +15,6 @@ exclude = ["/target"]
 tantivy = "0.26.2"
 thiserror = "2"
 serde = { version = "1", features = ["derive"] }
-tokio = "1"
 
 [features]
 default = ["bm25"]
@@ -23,7 +22,6 @@ bm25 = []
 
 [dev-dependencies]
 proptest = "1"
-tokio = { version = "1", features = ["macros", "rt-multi-thread"] }
 
 [lints.clippy]
 unwrap_used = "warn"

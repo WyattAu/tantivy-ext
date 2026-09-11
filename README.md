@@ -1,5 +1,9 @@
 # tantivy-helper
 
+[![docs.rs](https://docs.rs/tantivy-helper/badge.svg)](https://docs.rs/tantivy-helper)
+[![crates.io](https://img.shields.io/crates/v/tantivy-helper.svg)](https://crates.io/crates/tantivy-helper)
+[![License](https://img.shields.io/badge/license-MIT%2FApache--2.0-blue.svg)](LICENSE)
+
 Full-text search for Rust — Tantivy wrapper with BM25 ranking, autocomplete, highlighting, and typed queries.
 
 Built on **tantivy 0.26** (v0.2.0). MSRV is 1.86.
