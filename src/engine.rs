@@ -8,6 +8,10 @@ use tantivy::{Index, IndexWriter, ReloadPolicy, TantivyDocument};
 use crate::error::SearchError;
 use crate::schema::IndexConfig;
 
+/// Tantivy requires at least this many bytes of memory arena per indexing
+/// thread (`MEMORY_BUDGET_NUM_BYTES_MIN`).
+const MEMORY_BUDGET_NUM_BYTES_PER_THREAD: usize = 15_000_000;
+
 /// Result of a single search hit.
 #[derive(Debug, Clone)]
 pub struct SearchResult {
@@ -44,6 +48,11 @@ impl SearchEngine {
                         opts.set_indexing_options(
                             TextFieldIndexing::default().set_tokenizer("default"),
                         )
+                    } else {
+                        opts
+                    };
+                    let opts = if field_def.fast {
+                        opts.set_fast(None)
                     } else {
                         opts
                     };
@@ -132,6 +141,11 @@ impl SearchEngine {
                     } else {
                         opts
                     };
+                    let opts = if field_def.fast {
+                        opts.set_fast()
+                    } else {
+                        opts
+                    };
                     let opts = if field_def.indexed {
                         opts.set_indexed()
                     } else {
@@ -153,8 +167,17 @@ impl SearchEngine {
             .create_in_dir(index_path)
             .map_err(|e| SearchError::Index(e.to_string()))?;
 
+        // tantivy 0.26 changed `Index::writer(memory_budget)` to take a byte
+        // budget, NOT a thread count — passing `num_threads` there made every
+        // engine construction fail with "memory arena ... at least 15000000".
+        // Use `writer_with_num_threads` so the knob is a real thread knob,
+        // with a per-thread budget that always satisfies tantivy's minimum.
+        let num_threads = config.settings.num_threads.max(1);
+        let overall_budget = num_threads
+            .saturating_mul(MEMORY_BUDGET_NUM_BYTES_PER_THREAD)
+            .max(MEMORY_BUDGET_NUM_BYTES_PER_THREAD);
         let writer = index
-            .writer(config.settings.num_threads)
+            .writer_with_num_threads(num_threads, overall_budget)
             .map_err(|e| SearchError::Index(e.to_string()))?;
 
         Ok(Self {

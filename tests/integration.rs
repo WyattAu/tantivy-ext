@@ -1,11 +1,10 @@
 //! Integration tests for the tantivy-ext (tantivy-helper) crate.
 //!
-//! Tests FieldDefinition creation for each type, BM25Config defaults,
-//! Highlighter highlight and snippet, and SearchError display.
+//! Tests FieldDefinition creation for each type, Highlighter highlight and
+//! snippet, and SearchError display.
 
 use tantivy_helper::SearchError;
 use tantivy_helper::highlight::Highlighter;
-use tantivy_helper::ranking::BM25Config;
 use tantivy_helper::schema::{FieldDefinition, FieldType, IndexConfig, IndexSettings};
 
 // ---------------------------------------------------------------------------
@@ -123,74 +122,6 @@ fn field_type_debug_format() {
     assert_eq!(format!("{:?}", FieldType::F64), "F64");
     assert_eq!(format!("{:?}", FieldType::DateTime), "DateTime");
     assert_eq!(format!("{:?}", FieldType::Bool), "Bool");
-}
-
-// ---------------------------------------------------------------------------
-// BM25Config defaults and builder
-// ---------------------------------------------------------------------------
-
-#[test]
-fn bm25_default_values() {
-    let cfg = BM25Config::default();
-    assert_eq!(cfg.k1, 1.2);
-    assert_eq!(cfg.b, 0.75);
-    assert!(cfg.field_boosts.is_empty());
-    assert_eq!(cfg.recency_boost, 0.0);
-}
-
-#[test]
-fn bm25_new_matches_default() {
-    let cfg = BM25Config::new();
-    assert_eq!(cfg.k1, 1.2);
-    assert_eq!(cfg.b, 0.75);
-}
-
-#[test]
-fn bm25_builder_k1() {
-    let cfg = BM25Config::new().k1(2.5);
-    assert_eq!(cfg.k1, 2.5);
-    assert_eq!(cfg.b, 0.75); // unchanged
-}
-
-#[test]
-fn bm25_builder_b() {
-    let cfg = BM25Config::new().b(0.3);
-    assert_eq!(cfg.b, 0.3);
-    assert_eq!(cfg.k1, 1.2); // unchanged
-}
-
-#[test]
-fn bm25_builder_field_boosts() {
-    let cfg = BM25Config::new()
-        .field_boost("title", 2.0)
-        .field_boost("body", 0.5);
-
-    assert_eq!(cfg.field_boosts.len(), 2);
-    assert_eq!(cfg.field_boosts[0].field, "title");
-    assert_eq!(cfg.field_boosts[0].weight, 2.0);
-    assert_eq!(cfg.field_boosts[1].field, "body");
-    assert_eq!(cfg.field_boosts[1].weight, 0.5);
-}
-
-#[test]
-fn bm25_builder_recency_boost() {
-    let cfg = BM25Config::new().recency_boost(0.2);
-    assert_eq!(cfg.recency_boost, 0.2);
-}
-
-#[test]
-fn bm25_builder_full_chain() {
-    let cfg = BM25Config::new()
-        .k1(3.0)
-        .b(0.6)
-        .field_boost("title", 1.5)
-        .field_boost("content", 0.8)
-        .recency_boost(0.1);
-
-    assert_eq!(cfg.k1, 3.0);
-    assert_eq!(cfg.b, 0.6);
-    assert_eq!(cfg.field_boosts.len(), 2);
-    assert_eq!(cfg.recency_boost, 0.1);
 }
 
 // ---------------------------------------------------------------------------
@@ -348,7 +279,6 @@ fn search_error_variants_distinct() {
 fn index_settings_defaults() {
     let s = IndexSettings::default();
     assert_eq!(s.num_threads, 4);
-    assert!(s.temp_directory.is_none());
     assert_eq!(s.index_base_path, "./tantivy-index");
 }
 
@@ -360,7 +290,6 @@ fn index_config_with_fields() {
             FieldDefinition::u64("id"),
             FieldDefinition::bool("active"),
         ],
-        tokenizers: vec![],
         settings: IndexSettings::default(),
     };
 
@@ -374,16 +303,13 @@ fn index_config_with_fields() {
 fn index_config_debug_format() {
     let config = IndexConfig {
         fields: vec![FieldDefinition::text("body")],
-        tokenizers: vec!["custom".into()],
         settings: IndexSettings {
             num_threads: 2,
-            temp_directory: Some("/tmp".into()),
             index_base_path: "/data/index".into(),
         },
     };
 
     let debug = format!("{:?}", config);
     assert!(debug.contains("body"));
-    assert!(debug.contains("custom"));
     assert!(debug.contains("/data/index"));
 }

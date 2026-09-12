@@ -2,7 +2,6 @@
 
 use proptest::prelude::*;
 
-use tantivy_helper::BM25Config;
 use tantivy_helper::{FieldDefinition, FieldType};
 
 fn arb_field_type() -> impl Strategy<Value = FieldType> {
@@ -58,36 +57,6 @@ proptest! {
     ) {
         let f = FieldDefinition::u64("test").fast(fast);
         prop_assert_eq!(f.fast, fast);
-    }
-
-    #[test]
-    fn bm25_config_k1_positive(k1 in 0.01f32..100.0) {
-        let cfg = BM25Config::new().k1(k1);
-        prop_assert!(cfg.k1 > 0.0, "k1 must be positive");
-    }
-
-    #[test]
-    fn bm25_config_b_in_range(b in 0.0f32..1.0) {
-        let cfg = BM25Config::new().b(b);
-        prop_assert!(cfg.b >= 0.0 && cfg.b <= 1.0,
-            "b must be in [0, 1]");
-    }
-
-    #[test]
-    fn bm25_config_builder_chaining(
-        k1 in 0.1f32..10.0,
-        b in 0.0f32..1.0,
-        boost in 0.0f32..10.0,
-    ) {
-        let cfg = BM25Config::new()
-            .k1(k1)
-            .b(b)
-            .field_boost("title", boost)
-            .recency_boost(boost * 0.1);
-        prop_assert_eq!(cfg.k1, k1);
-        prop_assert_eq!(cfg.b, b);
-        prop_assert_eq!(cfg.field_boosts.len(), 1);
-        prop_assert_eq!(cfg.field_boosts[0].weight, boost);
     }
 
     #[test]

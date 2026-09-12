@@ -1,13 +1,13 @@
 [package]
 name = "tantivy-helper"
-version = "0.2.0"
+version = "0.3.0"
 edition = "2024"
 # MSRV exception per engineering-standards §1
 rust-version = "1.86"
-description = "Full-text search for Rust — Tantivy wrapper with BM25 ranking, autocomplete, highlighting, and typed queries"
+description = "Full-text search for Rust — Tantivy wrapper with autocomplete, highlighting, and typed queries"
 license = "MIT OR Apache-2.0"
 repository = "https://github.com/WyattAu/tantivy-ext"
-keywords = ["tantivy", "search", "fulltext", "bm25", "highlight"]
+keywords = ["tantivy", "search", "fulltext", "highlight"]
 categories = ["text-processing"]
 exclude = ["/target"]
 
@@ -15,10 +15,6 @@ exclude = ["/target"]
 tantivy = "0.26.2"
 thiserror = "2"
 serde = { version = "1", features = ["derive"] }
-
-[features]
-default = ["bm25"]
-bm25 = []
 
 [dev-dependencies]
 proptest = "1"

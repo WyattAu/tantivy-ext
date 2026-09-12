@@ -5,8 +5,6 @@ use serde::{Deserialize, Serialize};
 pub struct IndexConfig {
     /// Field definitions.
     pub fields: Vec<FieldDefinition>,
-    /// Custom tokenizer names.
-    pub tokenizers: Vec<String>,
     /// Index settings.
     pub settings: IndexSettings,
 }
@@ -16,8 +14,6 @@ pub struct IndexConfig {
 pub struct IndexSettings {
     /// Number of indexing threads.
     pub num_threads: usize,
-    /// Temporary directory for index construction.
-    pub temp_directory: Option<String>,
     /// Base path for persistent index storage.
     pub index_base_path: String,
 }
@@ -26,7 +22,6 @@ impl Default for IndexSettings {
     fn default() -> Self {
         Self {
             num_threads: 4,
-            temp_directory: None,
             index_base_path: "./tantivy-index".into(),
         }
     }

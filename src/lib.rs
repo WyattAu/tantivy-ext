@@ -11,22 +11,18 @@ pub mod error;
 pub mod highlight;
 /// Query builder for constructing Tantivy queries.
 pub mod query;
-/// BM25 ranking configuration.
-pub mod ranking;
 /// Index schema definitions.
 pub mod schema;
 
 pub use engine::SearchEngine;
 pub use error::SearchError;
 pub use query::QueryBuilder;
-pub use ranking::BM25Config;
 pub use schema::{FieldDefinition, FieldType, IndexConfig};
 
 #[cfg(test)]
 mod tests {
     use super::*;
     use crate::highlight::Highlighter;
-    use crate::ranking::BM25Config;
     use crate::schema::{FieldDefinition, FieldType, IndexSettings};
 
     // ---- FieldDefinition tests ----
@@ -102,44 +98,6 @@ mod tests {
     fn field_type_debug() {
         assert_eq!(format!("{:?}", FieldType::Text), "Text");
         assert_eq!(format!("{:?}", FieldType::DateTime), "DateTime");
-    }
-
-    // ---- BM25Config tests ----
-
-    #[test]
-    fn bm25_config_defaults() {
-        let cfg = BM25Config::default();
-        assert_eq!(cfg.k1, 1.2);
-        assert_eq!(cfg.b, 0.75);
-        assert!(cfg.field_boosts.is_empty());
-        assert_eq!(cfg.recency_boost, 0.0);
-    }
-
-    #[test]
-    fn bm25_config_new_matches_default() {
-        let cfg = BM25Config::new();
-        let def = BM25Config::default();
-        assert_eq!(cfg.k1, def.k1);
-        assert_eq!(cfg.b, def.b);
-    }
-
-    #[test]
-    fn bm25_config_builder_chaining() {
-        let cfg = BM25Config::new()
-            .k1(2.0)
-            .b(0.5)
-            .field_boost("title", 1.5)
-            .field_boost("body", 0.8)
-            .recency_boost(0.1);
-
-        assert_eq!(cfg.k1, 2.0);
-        assert_eq!(cfg.b, 0.5);
-        assert_eq!(cfg.field_boosts.len(), 2);
-        assert_eq!(cfg.field_boosts[0].field, "title");
-        assert_eq!(cfg.field_boosts[0].weight, 1.5);
-        assert_eq!(cfg.field_boosts[1].field, "body");
-        assert_eq!(cfg.field_boosts[1].weight, 0.8);
-        assert_eq!(cfg.recency_boost, 0.1);
     }
 
     // ---- Highlighter tests ----
@@ -229,7 +187,6 @@ mod tests {
     fn index_settings_defaults() {
         let s = IndexSettings::default();
         assert_eq!(s.num_threads, 4);
-        assert!(s.temp_directory.is_none());
         assert_eq!(s.index_base_path, "./tantivy-index");
     }
 }
