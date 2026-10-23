@@ -4,16 +4,16 @@
 [![crates.io](https://img.shields.io/crates/v/tantivy-helper.svg)](https://crates.io/crates/tantivy-helper)
 [![License](https://img.shields.io/badge/license-MIT%2FApache--2.0-blue.svg)](LICENSE)
 
-Full-text search for Rust — Tantivy wrapper with autocomplete, highlighting, and typed queries.
+Full-text search for Rust: Tantivy wrapper with autocomplete, highlighting, and typed queries.
 
 Built on **tantivy 0.26** (v0.3.0). MSRV is 1.86.
 
 ## Features
 
-- **Autocomplete** — Phrase prefix queries for search-as-you-type
-- **Highlighting** — Custom tag highlighter with token-bounded snippets
-- **Typed queries** — Term, phrase, prefix, fuzzy, and boolean queries
-- **Schema DSL** — Fluent field definition API (stored/indexed/fast per field)
+- **Autocomplete**: Phrase prefix queries for search-as-you-type
+- **Highlighting**: Custom tag highlighter with token-bounded snippets
+- **Typed queries**: Term, phrase, prefix, fuzzy, and boolean queries
+- **Schema DSL**: Fluent field definition API (stored/indexed/fast per field)
 
 ## Schema Definition
 
@@ -62,16 +62,16 @@ for hit in &results {
 
 ## Version history
 
-- **0.3.0** — Config-knob audit. Removed dead config surface: `BM25Config`
+- **0.3.0**: Config-knob audit. Removed dead config surface: `BM25Config`
   (+ `FieldBoost`, `ranking` module, `bm25` feature), `IndexConfig::tokenizers`,
   `IndexSettings::temp_directory`. Fixed `num_threads` (passed as a byte
-  budget to tantivy 0.26's writer — engine construction always failed),
+  budget to tantivy 0.26's writer: engine construction always failed),
   wired `Highlighter::max_tokens`, wired `fast` for Text/Bool fields, and
   made `snippet` char-boundary safe. See CHANGELOG for details.
-- **0.2.0** — Bump to tantivy 0.26. Public API unchanged except:
+- **0.2.0**: Bump to tantivy 0.26. Public API unchanged except:
   - `SearchEngine::search` now ranks via `TopDocs::with_limit(limit).order_by_score()` (tantivy 0.26 made `TopDocs` a collector blueprint, not a `Collector` itself). Behavior is identical: score-ranked top-K.
   - MSRV raised to 1.86 (tantivy 0.26 requirement).
-- **0.1.0** — Initial release on tantivy 0.22.
+- **0.1.0**: Initial release on tantivy 0.22.
 
 ## Ecosystem alignment
 
