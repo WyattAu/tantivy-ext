@@ -412,6 +412,10 @@ criteria = "safe-to-deploy"
 version = "0.3.0"
 criteria = "safe-to-deploy"
 
+[[exemptions.tantivy-helper]]
+version = "0.3.1"
+criteria = "safe-to-deploy"
+
 [[exemptions.tantivy-query-grammar]]
 version = "0.26.0"
 criteria = "safe-to-deploy"
