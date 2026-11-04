@@ -10,6 +10,7 @@ repository = "https://github.com/WyattAu/tantivy-ext"
 keywords = ["tantivy", "search", "fulltext", "highlight"]
 categories = ["text-processing"]
 exclude = ["/target"]
+readme = "README.md"
 
 [dependencies]
 tantivy = "0.26.2"

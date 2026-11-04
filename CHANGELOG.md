@@ -3,6 +3,16 @@
 All notable changes to this project are documented here. Format: [Keep a
 Changelog](https://keepachangelog.com/): versions follow [semver](https://semver.org).
 
+## [Unreleased]
+
+### Fixed
+
+- README usage examples imported `tantivy_ext`, the lib name from before the
+  crate was published as `tantivy-helper`; they now import `tantivy_helper`
+  (the actual lib name). Copy-paste examples no longer fail to compile.
+- `Cargo.toml` declares `readme = "README.md"` explicitly so the crates.io
+  page renders the README.
+
 ## [0.3.0] - 2026-09-12
 
 ### Removed (dead config knobs: config-matrix audit)

@@ -18,7 +18,7 @@ Built on **tantivy 0.26** (v0.3.0). MSRV is 1.86.
 ## Schema Definition
 
 ```rust
-use tantivy_ext::{IndexConfig, FieldDefinition, IndexSettings};
+use tantivy_helper::{IndexConfig, FieldDefinition, IndexSettings};
 
 let config = IndexConfig {
     fields: vec![
@@ -37,7 +37,7 @@ let config = IndexConfig {
 ## Search Example
 
 ```rust
-use tantivy_ext::{SearchEngine, QueryBuilder};
+use tantivy_helper::{SearchEngine, QueryBuilder};
 
 let engine = SearchEngine::new(&config)?;
 let query = QueryBuilder::new(engine.index(), engine.schema())
