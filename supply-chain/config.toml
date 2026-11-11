@@ -140,10 +140,6 @@ criteria = "safe-to-deploy"
 version = "0.13.1"
 criteria = "safe-to-deploy"
 
-[[exemptions.futures-macro]]
-version = "0.3.34"
-criteria = "safe-to-deploy"
-
 [[exemptions.futures-task]]
 version = "0.3.34"
 criteria = "safe-to-deploy"
@@ -410,6 +406,10 @@ criteria = "safe-to-deploy"
 
 [[exemptions.tantivy-helper]]
 version = "0.3.0"
+criteria = "safe-to-deploy"
+
+[[exemptions.tantivy-helper]]
+version = "0.3.1"
 criteria = "safe-to-deploy"
 
 [[exemptions.tantivy-query-grammar]]
